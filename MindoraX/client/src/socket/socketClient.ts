@@ -1,6 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 
-const SERVER_URL = 'http://localhost:5000';
+const SERVER_URL = import.meta.env.VITE_API_URL;
 
 let postsSocket: Socket | null = null;
 let chatSocket: Socket | null = null;

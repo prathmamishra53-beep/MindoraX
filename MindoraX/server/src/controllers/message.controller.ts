@@ -18,9 +18,9 @@ export const sendMessage = async (req: AuthRequest, res: Response, next: NextFun
     const receiver = await User.findById(receiverId);
     if (!receiver) return next(createError('User not found', 404));
 
-    let mediaUrl = '';
+    let mediaUrl = "";
     if (req.file) {
-      mediaUrl = `http://localhost:5000/uploads/media/${req.file.filename}`;
+      mediaUrl = `${process.env.SERVER_URL}/uploads/media/${req.file.filename}`;
     }
 
     // For text messages, content is required

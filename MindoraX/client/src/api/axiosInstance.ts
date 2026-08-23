@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: `{import.meta.env.VITE_API_URL}/api`,
   withCredentials: true,
   timeout: 10000,
 });
@@ -31,10 +31,10 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const { data } = await axios.post(
-          'http://localhost:5000/api/auth/refresh',
-          {},
-          { withCredentials: true }
-        );
+  `${import.meta.env.VITE_API_URL}/api/auth/refresh`,
+  {},
+  { withCredentials: true }
+);
         const newToken = data.data.accessToken;
         setAuthToken(newToken);
         localStorage.setItem('accessToken', newToken);

@@ -50,9 +50,9 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
     if (isAuthenticated && accessToken) {
       fetchNotifications();
 
-      const newSocket = io('http://localhost:5000/notifications', {
-        auth: { token: accessToken },
-      });
+      const newSocket = io(`${import.meta.env.VITE_API_URL}/notifications`, {
+         auth: { token: accessToken },
+       });
 
       newSocket.on('connect', () => {
         console.log('Connected to notifications socket');

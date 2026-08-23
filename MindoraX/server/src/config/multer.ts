@@ -24,7 +24,8 @@ const avatarFilter = (_req: any, file: Express.Multer.File, cb: multer.FileFilte
 };
 
 export const uploadAvatar = multer({ storage: avatarStorage, fileFilter: avatarFilter, limits: { fileSize: 5 * 1024 * 1024 } });
-export const getFileUrl = (filename: string) => `http://localhost:5000/uploads/avatars/${filename}`;
+export const getFileUrl = (filename: string) =>
+  `${process.env.SERVER_URL}/uploads/avatars/${filename}`;
 
 // ── Media storage (voice/video messages) ───────────────────────────────
 const mediaStorage = multer.diskStorage({
@@ -48,7 +49,7 @@ const mediaFilter = (_req: any, file: Express.Multer.File, cb: multer.FileFilter
 export const uploadMedia = multer({ storage: mediaStorage, fileFilter: mediaFilter, limits: { fileSize: 50 * 1024 * 1024 } });
 export const getMediaUrl = (filename: string) => `http://localhost:5000/uploads/media/${filename}`;
 
-// -- Cloudinary upload (memory storage � for avatar + post media) ---------
+// -- Cloudinary upload (memory storage � for avatar + post media) ---------
 const imageVideoFilter = (_req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
   const allowed = [
     'image/jpeg', 'image/png', 'image/webp', 'image/gif',
