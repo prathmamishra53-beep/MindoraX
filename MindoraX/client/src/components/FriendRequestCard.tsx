@@ -1,0 +1,8 @@
+import React, { useState } from 'react';
+import { FriendRequest } from '../types';
+import Avatar from './Avatar';
+import { friendsApi } from '../api/friendsApi';
+import { toast } from 'react-hot-toast';
+interface Props { request: FriendRequest; onHandled: (requesterId: string, action: 'accept' | 'reject') => void; }
+const FriendRequestCard: React.FC<Props> = ({ request, onHandled }) => { const [loading, setLoading] = useState<'accept' | 'reject' | null>(null); const requester: any = request.requester; const requesterId = requester._id || requester.id; const handle = async (action: 'accept' | 'reject') => { if (!requesterId || loading) return; setLoading(action); try { await friendsApi.respondRequest(requesterId, action); toast.success(action === 'accept' ? 'You are now friends!' : 'Request declined'); onHandled(requesterId, action); } catch (err: any) { toast.error(err?.response?.data?.message || 'Failed to respond to request'); setLoading(null); } }; return <div className="friend-request-card"><Avatar src={requester.profilePicture} name={requester.displayName} size="md" /><div className="friend-request-info"><div className="friend-request-name">{requester.displayName}</div><div className="friend-request-username">@{requester.username}</div></div><div className="friend-request-actions"><button className="btn btn-primary btn-sm" onClick={() => handle('accept')} disabled={loading !== null}>{loading === 'accept' ? '…' : 'Accept'}</button><button className="btn btn-ghost btn-sm" onClick={() => handle('reject')} disabled={loading !== null}>{loading === 'reject' ? '…' : 'Decline'}</button></div></div>; };
+export default FriendRequestCard;
